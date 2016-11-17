@@ -1,3 +1,2 @@
 #!/bin/bash
- fortune | cowsay -W50 -f  tux
-
+ fortune | cowsay -W50 -f tux
