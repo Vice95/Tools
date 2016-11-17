@@ -1,8 +1,20 @@
 #!/bin/bash
 clear
+detectkernel () {                                                        kernel=( $(uname -srm) )
+        kernel="${kernel[${#kernel[@]}-1]} ${kernel[@]:0:${#kerne
+l[@]}-1}"
+        [[ "$verbosity" -eq "1" ]] && verboseOut "Finding kernel
+version...found as '$kernel'"
+}                                                                # Kernel Version Detection - End
 
 echo -e "\e[33m""Salve "$(whoami)
+echo -e $(date)
 /usr/games/fortune | /usr/games/cowsay -W50 -f tux
+echo -e "Kernel:\t " $(uname -srm)
+echo -e "Cpu:\t"$(awk 'BEGIN{FS=":"} /model name/ { print $2; exit }' /proc/cpuinfo | sed 's/ @/\n/' | head -1) " @ " $(awk -F':' '/cpu MHz/{ print int($2+.5) }' /proc/cpuinfo | head -n 1) " MHz"    
+#lspci | grep VGA 
+gpu_info=$(lspci 2> /dev/null | grep VGA)                        gpu=$(echo "$gpu_info" | grep -oE '\[.*\]' | sed 's/\[//;s/\]//')                                                                 gpu=$(echo "${gpu}" | sed -n '1h;2,$H;${g;s/\n/, /g;p}')  
+echo -e "Gpu:\t"$gpu
 echo -e "\e[1;32m""Temperatura"
 echo -n "cpu: "
 sensors | grep temp | awk {'print $2'}
